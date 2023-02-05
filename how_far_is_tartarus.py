@@ -17,8 +17,6 @@ def displacement_linearg( u, t, dt = 0.001 ):
     vel = u
     num_steps = t/dt
     g_decay_factor = g/num_steps
-    print(g_decay_factor)
-    exit()
     for time_step in np.arange(0, t, dt):
         d += displacement_constantg( vel, dt, g )
         vel = new_velocity( vel, g, dt )
