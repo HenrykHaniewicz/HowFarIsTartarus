@@ -8,8 +8,11 @@ def new_velocity( u, a, t ):
     return (u + (a * t))
 
 # Accepts u in ms-1, t in s, g in ms-2
-def displacement_constantg( u, t, g ):
-    return ((u * t) + 0.5 * g * (t**2))
+def displacement_constantg( u, t, g, term_vel = NULL ):
+    if (term_vel != NULL) and u == term_vel:
+        return u * t
+    else:
+        return ((u * t) + 0.5 * g * (t**2))
 
 def displacement_linearg( u, t, dt = 0.001 ):
     g = 9.81
@@ -18,7 +21,7 @@ def displacement_linearg( u, t, dt = 0.001 ):
     num_steps = t/dt
     g_decay_factor = g/num_steps
     for time_step in np.arange(0, t, dt):
-        d += displacement_constantg( vel, dt, g )
+        d += displacement_constantg( vel, dt, g, 84.7 )
         vel = new_velocity( vel, g, dt )
         g -= g_decay_factor
     return d
@@ -39,7 +42,7 @@ if __name__ == "__main__":
     init_velocity = 0
     g = 9.81
 
-    dist = displacement_constantg( init_velocity, days_2_seconds(NUM_DAYS), g )
+    dist = displacement_constantg( init_velocity, days_2_seconds(NUM_DAYS), g, 84.7 )
     dist_au = m_2_AU(dist)
     dist_ly = m_2_ly(dist)
 
